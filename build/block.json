@@ -1,0 +1,76 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "roomworksmedia-block/roomworksmedia-forcast",
+  "version": "0.1.0",
+  "title": "Roomworksmedia Forcast",
+  "category": "widgets",
+  "icon": "media-interactive",
+  "description": "An interactive block with the Interactivity API.",
+  "example": {},
+  "supports": {
+    "interactivity": true,
+    "color": {
+      "gradients": true,
+      "link": true,
+      "text": true
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true
+    },
+    "layout": true,
+    "__experimentalBorder": {
+      "radius": true,
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "radius": true,
+        "color": true,
+        "style": true,
+        "width": true
+      }
+    }
+  },
+  "attributes": {
+    "location": {
+      "type": "string",
+      "default": "London"
+    },
+    "unit": {
+      "type": "string",
+      "default": "C"
+    },
+    "speedUnit": {
+      "type": "string",
+      "default": "km/h"
+    },
+    "extraInfo": {
+      "type": "boolean",
+      "default": false
+    },
+    "backgroundColour": {
+      "type": "string",
+      "default": "#f3f3f3"
+    },
+    "titleColor": {
+      "type": "string",
+      "default": "#000"
+    },
+    "titleSize": {
+      "type": "number",
+      "default": 20
+    },
+    "iconSize": {
+      "type": "number",
+      "default": 50
+    }
+  },
+  "textdomain": "roomworksmedia-forcast",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

@@ -1,0 +1,38 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-roomworksmedia-block-roomworksmedia-forcast input[type='text'] {
+	font-size: 1em;
+	color: inherit;
+	background: inherit;
+	border: 0;
+}
+
+.wp-block-roomworksmedia-block-roomworksmedia-forcast {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	.weather-container {
+		
+		p {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			margin: 0;
+		}
+
+		.forcast p {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-evenly;
+			align-items: center;
+			width: 100%;
+		}
+	}
+}
