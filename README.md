@@ -1,4 +1,4 @@
-# free-to-use-gutenberg-block-weather-block
+# Free to use Weather Block
 
 Contributors:      Roomworks Media
 Tags:              block
