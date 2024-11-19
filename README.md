@@ -23,3 +23,6 @@ This is a basic wetaher app for demo purposes.
 
 This plugin uses the WeatherApi.com[https://www.weatherapi.com/ ] API to fetch weather data. You will need to sign up for a free account and get an API key.
 
+== For developers ==
+
+Fork the plugin, run npm install and npm start to start the development server.
