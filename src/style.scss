@@ -12,11 +12,52 @@
 	justify-content: center;
 	align-items: center;
 
-	.weather_title {
+	.weather-header {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		margin: 0;
+		
+		&.icon-position-top {
+			flex-direction: column;
+		}
+		
+		&.icon-position-bottom {
+			flex-direction: column-reverse;
+		}
+		
+		&.icon-position-left {
+			flex-direction: row;
+			
+			.weather-icon {
+				margin-right: 10px;
+				margin-left: 0;
+			}
+		}
+		
+		&.icon-position-right {
+			flex-direction: row;
+			
+			.weather-icon {
+				margin-left: 10px;
+			}
+		}
+		
+		h1, h2, h3, h4, h5, h6 {
+			margin: 0;
+			display: inline-block;
+		}
+	}
+
+	.weather-icon {
+		height: 50px; // Default icon size
+		width: auto;
+		
+		// Remove margins in top/bottom positions
+		.icon-position-top &,
+		.icon-position-bottom & {
+			margin: 5px 0;
+		}
 	}
 
 	.toggle-button {

@@ -2,23 +2,32 @@ import { __ } from '@wordpress/i18n';
 import axios from 'axios';
 import {
 	useBlockProps,
-	ColorPalette,
 	InspectorControls,
+	InnerBlocks,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useEffect, useState } from 'react';
+import { useSelect } from '@wordpress/data';
 import {
 	ToggleControl,
 	Panel,
 	PanelBody,
 	PanelRow,
-	RangeControl,
+	SelectControl,
 } from '@wordpress/components';
 
-export default function Edit( { attributes, setAttributes } ) {
-	const { location, unit, extraInfo, iconSize, titleColor, titleSize, speedUnit } =
-		attributes;
+export default function Edit( { attributes, setAttributes, clientId } ) {
+	const { location, unit, extraInfo, speedUnit, iconPosition } = attributes;
 	const blockProps = useBlockProps();
 	const [ data, setData ] = useState( null );
+
+	// Get inner blocks to track heading content changes
+	const innerBlocks = useSelect(
+		( select ) => {
+			return select( blockEditorStore ).getBlocks( clientId );
+		},
+		[ clientId ]
+	);
 
 	// Function to toggle temperature unit between Celsius and Fahrenheit
 	const toggleUnit = () => {
@@ -38,12 +47,12 @@ export default function Edit( { attributes, setAttributes } ) {
 			const fetchData = async () => {
 				try {
 					const response = await axios.get( weatherApiUrl );
-					console.log( response.data.forecast.forecastday[ 0 ].hour );
 					setData( response.data );
 					document.cookie = `weatherData=${ JSON.stringify(
 						response.data
 					) };max-age=3600`;
 				} catch ( error ) {
+					// eslint-disable-next-line no-console
 					console.error( 'Error fetching weather data:', error );
 				}
 			};
@@ -51,10 +60,28 @@ export default function Edit( { attributes, setAttributes } ) {
 		}
 	}, [ location ] );
 
-	// Set icon size
-	const setIconSize = ( value ) => {
-		setAttributes( { iconSize: value } );
-	};
+	// Watch for changes in heading content and update location attribute
+	useEffect( () => {
+		if (
+			innerBlocks &&
+			innerBlocks.length > 0 &&
+			innerBlocks[ 0 ].name === 'core/heading'
+		) {
+			const headingContent = innerBlocks[ 0 ].attributes?.content;
+			if ( headingContent && headingContent !== location ) {
+				// Extract plain text from HTML content
+				const tempDiv = document.createElement( 'div' );
+				tempDiv.innerHTML = headingContent;
+				const plainText =
+					tempDiv.textContent || tempDiv.innerText || '';
+
+				// Only update if it's different and not empty
+				if ( plainText.trim() && plainText.trim() !== location ) {
+					setAttributes( { location: plainText.trim() } );
+				}
+			}
+		}
+	}, [ innerBlocks, location, setAttributes ] );
 
 	return (
 		<div { ...blockProps }>
@@ -118,33 +145,18 @@ export default function Edit( { attributes, setAttributes } ) {
 							/>
 						</PanelRow>
 						<PanelRow>
-							<RangeControl
-								label={ __( 'Icon Size', 'weather-app' ) }
-								value={ iconSize }
-								onChange={ setIconSize }
-								min={ 32 }
-								max={ 70 }
-							/>
-						</PanelRow>
-						<PanelRow>
-							<ColorPalette
-								label={ __( 'Title Color', 'weather-app' ) }
-								value={ titleColor }
-								onChange={ ( newColor ) =>
-									setAttributes( { titleColor: newColor } )
-								}
-							/>
-						</PanelRow>
-						<PanelRow>
-							<RangeControl
-								__nextHasNoMarginBottom
-								label={ __( 'Title Size (px)', 'weather-app' ) }
-								value={ titleSize }
+							<SelectControl
+								label={ __( 'Icon Position', 'weather-app' ) }
+								value={ iconPosition }
+								options={ [
+									{ label: 'Right of Title', value: 'right' },
+									{ label: 'Left of Title', value: 'left' },
+									{ label: 'Above Title', value: 'top' },
+									{ label: 'Below Title', value: 'bottom' },
+								] }
 								onChange={ ( value ) =>
-									setAttributes( { titleSize: value } )
+									setAttributes( { iconPosition: value } )
 								}
-								min={ 16 }
-								max={ 150 }
 							/>
 						</PanelRow>
 					</PanelBody>
@@ -152,19 +164,62 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 
 			<div className="weather-container">
+				<div
+					className={ `weather-header icon-position-${ iconPosition }` }
+				>
+					<InnerBlocks
+						allowedBlocks={ [ 'core/heading' ] }
+						template={ [
+							[
+								'core/heading',
+								{
+									content: location || 'Weather Location',
+									level: 3,
+									placeholder: __(
+										'Enter location for weather…',
+										'weather-app'
+									),
+								},
+							],
+						] }
+						templateLock="all"
+					/>
+					{ data && data.location && (
+						<>
+							{ iconPosition === 'top' && (
+								<img
+									className="weather-icon"
+									src={ `https://${ data.current.condition.icon }` }
+									alt={ data.current.condition.text }
+								/>
+							) }
+							{ iconPosition === 'left' && (
+								<img
+									className="weather-icon"
+									src={ `https://${ data.current.condition.icon }` }
+									alt={ data.current.condition.text }
+								/>
+							) }
+							{ iconPosition === 'right' && (
+								<img
+									className="weather-icon"
+									src={ `https://${ data.current.condition.icon }` }
+									alt={ data.current.condition.text }
+								/>
+							) }
+							{ iconPosition === 'bottom' && (
+								<img
+									className="weather-icon"
+									src={ `https://${ data.current.condition.icon }` }
+									alt={ data.current.condition.text }
+								/>
+							) }
+						</>
+					) }
+				</div>
+
 				{ data && data.location ? (
 					<>
-						<h3
-							className="weather_title"
-							style={ { color: titleColor, fontSize: titleSize } }
-						>
-							{ data.location.name }
-							<img
-								src={ `https://${ data.current.condition.icon }` }
-								alt={ data.current.condition.text }
-								style={ { height: iconSize } }
-							/>
-						</h3>
 						<p>
 							<span>
 								{ unit === 'C'
@@ -184,35 +239,34 @@ export default function Edit( { attributes, setAttributes } ) {
 						</p>
 
 						{ extraInfo &&
-							data.forecast.forecastday[ 0 ].hour.map( ( hour ) => {
-								const time = hour.time.split( ' ' )[ 1 ]; // Extracts the 'HH:mm' part from 'YYYY-MM-DD HH:mm'
-								return (
-									<div
-										key={ hour.time_epoch }
-										className="forcast"
-									>
-										<p>
-											{ time } -
-											<span>
-												{ unit === 'C'
-													? `Temperature: ${ hour.temp_c }°C`
-													: `Temperature: ${ hour.temp_f }°F` }
-											</span>
-											<img
-												src={ `https://${ hour.condition.icon }` }
-												alt={ hour.condition.text }
-												style={ {
-													height: iconSize,
-													width: iconSize,
-												} }
-											/>
-										</p>
-									</div>
-								);
-							} ) }
+							data.forecast.forecastday[ 0 ].hour.map(
+								( hour ) => {
+									const time = hour.time.split( ' ' )[ 1 ]; // Extracts the 'HH:mm' part from 'YYYY-MM-DD HH:mm'
+									return (
+										<div
+											key={ hour.time_epoch }
+											className="forcast"
+										>
+											<p>
+												{ time } -
+												<span>
+													{ unit === 'C'
+														? `Temperature: ${ hour.temp_c }°C`
+														: `Temperature: ${ hour.temp_f }°F` }
+												</span>
+												<img
+													className="weather-icon"
+													src={ `https://${ hour.condition.icon }` }
+													alt={ hour.condition.text }
+												/>
+											</p>
+										</div>
+									);
+								}
+							) }
 					</>
 				) : (
-					<p>{ __( 'Loading weather data...', 'weather-app' ) }</p>
+					<p>{ __( 'Loading weather data…', 'weather-app' ) }</p>
 				) }
 			</div>
 		</div>

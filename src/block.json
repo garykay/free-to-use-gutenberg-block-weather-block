@@ -13,13 +13,31 @@
 		"color": {
 			"gradients": true,
 			"link": true,
-			"text": true
+			"text": true,
+			"background": true
 		},
 		"spacing": {
 			"padding": true,
 			"margin": true
 		},
 		"layout": true,
+		"typography": {
+			"fontSize": true,
+			"fontStyle": true,
+			"fontWeight": true,
+			"lineHeight": true,
+			"textDecoration": true,
+			"textTransform": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"fontAppearance": true,
+				"textTransform": true
+			}
+		},
+		"dimensions": {
+			"minHeight": true
+		},
 		"__experimentalBorder": {
 			"radius": true,
 			"color": true,
@@ -30,6 +48,17 @@
 				"color": true,
 				"style": true,
 				"width": true
+			}
+		},
+		"__experimentalStyle": {
+			"elements": {
+				"h3": {
+					"color": true,
+					"typography": {
+						"fontSize": true,
+						"fontWeight": true
+					}
+				}
 			}
 		}
 	},
@@ -54,23 +83,18 @@
 			"type": "string",
 			"default": "#f3f3f3"
 		},
-		"titleColor": {
+		"iconPosition": {
 			"type": "string",
-			"default": "#000"
+			"default": "right"
 		},
-		"titleSize": {
-			"type": "number",
-			"default": 20
-		},
-		"iconSize": {
-			"type": "number",
-			"default": 50
+		"style": {
+			"type": "object",
+			"default": {}
 		}
 	},
 	"textdomain": "roomworksmedia-forcast",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScriptModule": "file:./view.js"
+	"render": "file:./render.php"
 }

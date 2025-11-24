@@ -1,1 +1,8 @@
 node_modules
+.claude
+.env
+.DS_Store
+.vscode
+.idea
+*.log
+.cache
