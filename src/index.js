@@ -4,6 +4,7 @@
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 import { registerBlockType } from '@wordpress/blocks';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -32,4 +33,11 @@ registerBlockType( metadata.name, {
 	 * @see ./edit.js
 	 */
 	edit: Edit,
+
+	/**
+	 * Save function to output InnerBlocks content for dynamic blocks
+	 */
+	save: () => {
+		return <InnerBlocks.Content />;
+	},
 } );

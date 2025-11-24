@@ -11,13 +11,15 @@ $unique_id = wp_unique_id( 'p-' );
 /**
  * Get block attributes.
  */
-$location    = ! empty( $attributes['location'] ) ? esc_html( $attributes['location'] ) : 'London';
-$title_color = ! empty( $attributes['titleColor'] ) ? esc_html( $attributes['titleColor'] ) : 'black';
-$title_size  = ! empty( $attributes['titleSize'] ) ? esc_html( $attributes['titleSize'] ) : '20';
-$icon_size   = $attributes['iconSize'] ?? '50';
-$unit        = $attributes['unit'] ?? 'C';
-$speed_unit  = $attributes['speedUnit'] ?? 'km/h';
-$extra_info  = $attributes['extraInfo'] ?? 'false';
+$location          = ! empty( $attributes['location'] ) ? esc_html( $attributes['location'] ) : 'London';
+$unit              = $attributes['unit'] ?? 'C';
+$speed_unit        = $attributes['speedUnit'] ?? 'km/h';
+$extra_info        = $attributes['extraInfo'] ?? 'false';
+$title_color       = $attributes['titleColor'] ?? '#000';
+$title_size        = $attributes['titleSize'] ?? 20;
+$title_font_weight = $attributes['titleFontWeight'] ?? 'normal';
+$icon_size         = $attributes['iconSize'] ?? 50;
+$icon_position     = $attributes['iconPosition'] ?? 'right';
 /**
  * Fetch weather data from weather API.
  */
@@ -41,10 +43,7 @@ if ( ! $weather_info ) {
 }
 ?>
 
-<div <?php echo get_block_wrapper_attributes(); ?>
-	data-wp-interactive="roomworksmedia-block"
-	<?php echo wp_interactivity_data_wp_context( array( 'isOpen' => false ) ); ?>
-	data-wp-watch="callbacks.logIsOpen">
+<div <?php echo get_block_wrapper_attributes(); ?>>
 	<?php
 	if ( $weather_info && isset( $weather_info->current ) ) :
 		$temp          = $unit === 'F' ? $weather_info->current->temp_f : $weather_info->current->temp_c;
@@ -53,10 +52,35 @@ if ( ! $weather_info ) {
 		$icon          = $weather_info->current->condition->icon;
 		$forecast_temp = $weather_info->forecast->forecastday[0]->hour
 		?>
-		<h3 class="weather_title" style="color: <?php echo esc_attr( $title_color ); ?>; font-size: <?php echo esc_attr( $title_size ); ?>px">
-			<?php echo esc_html( ucfirst( $location ) ); ?>
-			<img src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( $condition ); ?>" style="height: <?php echo esc_attr( $icon_size ); ?>px;">
-		</h3>
+		<div class="weather-header icon-position-<?php echo esc_attr( $icon_position ); ?>">
+			<div class="weather-title-content">
+				<?php
+				// Render InnerBlocks content with proper WordPress block processing
+				if ( ! empty( $content ) ) {
+					// Use do_blocks to ensure proper processing of Gutenberg content
+					echo do_blocks( $content );
+				} else {
+					echo '<h3>' . esc_html( ucfirst( $location ) ) . '</h3>';
+				}
+				?>
+			</div>
+			
+			<?php if ( $icon_position === 'top' ) : ?>
+				<img class="weather-icon" src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( $condition ); ?>">
+			<?php endif; ?>
+			
+			<?php if ( $icon_position === 'left' ) : ?>
+				<img class="weather-icon" src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( $condition ); ?>">
+			<?php endif; ?>
+			
+			<?php if ( $icon_position === 'right' ) : ?>
+				<img class="weather-icon" src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( $condition ); ?>">
+			<?php endif; ?>
+			
+			<?php if ( $icon_position === 'bottom' ) : ?>
+				<img class="weather-icon" src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( $condition ); ?>">
+			<?php endif; ?>
+		</div>
 		<p>
 			<?php printf( esc_html__( 'Temperature: %1$.1f °%2$s', 'weather-app' ), $temp, esc_html( $unit ) ); ?><br>
 			<?php printf( esc_html__( 'Wind: %1$s %2$s', 'weather-app' ), $wind, esc_html( $speed_unit ) ); ?><br>
@@ -84,7 +108,7 @@ if ( ! $weather_info ) {
 						?>
 						<p>
 							<?php printf( esc_html__( '%1$s: %2$.1f °%3$s', 'weather-app' ), date( 'H:i', strtotime( $hour->time ) ), $hour_temp, esc_html( $hour_unit ) ); ?>
-							<img src="<?php echo esc_url( $hour->condition->icon ); ?>" alt="<?php echo esc_attr( $hour->condition->text ); ?>" style="height: <?php echo esc_attr( $icon_size ); ?>px;">
+							<img class="weather-icon" src="<?php echo esc_url( $hour->condition->icon ); ?>" alt="<?php echo esc_attr( $hour->condition->text ); ?>">
 						</p>
 					<?php endforeach; ?>
 				<?php endif; ?>
