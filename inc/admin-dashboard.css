@@ -1,0 +1,376 @@
+.notice, div.error, div.updated {
+	color: black !important;
+}
+
+/* Modern Dashboard Styles */
+.weather-app-dashboard {
+	max-width: 1200px;
+	margin: 0 auto;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Fix WordPress notices that appear above our dashboard */
+body.settings_page_weather_app_settings .wrap > .notice,
+body.settings_page_weather_app_settings .wrap > .updated,
+body.settings_page_weather_app_settings .wrap > .error,
+body.settings_page_weather_app_settings .wrap > .settings-error {
+	color: #000 !important;
+	background: white !important;
+	border: 1px solid #ddd !important;
+	border-left: 4px solid #00a0d2 !important;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+	border-radius: 0 4px 4px 0 !important;
+	margin: 0 0 2rem 0 !important;
+	padding: 12px !important;
+	font-size: 14px !important;
+	line-height: 1.5 !important;
+	max-width: 1200px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+body.settings_page_weather_app_settings .wrap > .notice p,
+body.settings_page_weather_app_settings .wrap > .updated p,
+body.settings_page_weather_app_settings .wrap > .error p,
+body.settings_page_weather_app_settings .wrap > .settings-error p {
+	color: #000 !important;
+	margin: 0 !important;
+}
+
+body.settings_page_weather_app_settings .wrap > .notice.notice-success,
+body.settings_page_weather_app_settings .wrap > .updated {
+	border-left-color: #46b450 !important;
+	background: #f7fff7 !important;
+	color: #000 !important;
+}
+
+body.settings_page_weather_app_settings .wrap > .notice.notice-success p,
+body.settings_page_weather_app_settings .wrap > .updated p {
+	color: #000 !important;
+}
+
+body.settings_page_weather_app_settings .wrap > .notice.notice-error,
+body.settings_page_weather_app_settings .wrap > .error {
+	border-left-color: #dc3232 !important;
+	background: #fff7f7 !important;
+	color: #000 !important;
+}
+
+body.settings_page_weather_app_settings .wrap > .notice.notice-error p,
+body.settings_page_weather_app_settings .wrap > .error p {
+	color: #000 !important;
+}
+
+/* Handle specific WordPress notice combinations */
+body.settings_page_weather_app_settings .wrap > .notice.notice-success.settings-error,
+body.settings_page_weather_app_settings .wrap > .notice.notice-success.settings-error p,
+body.settings_page_weather_app_settings .wrap > .notice.settings-error,
+body.settings_page_weather_app_settings .wrap > .notice.settings-error p,
+body.settings_page_weather_app_settings .wrap > .notice.is-dismissible,
+body.settings_page_weather_app_settings .wrap > .notice.is-dismissible p {
+	color: #000 !important;
+	background: white !important;
+}
+
+.weather-dashboard-header {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	padding: 2rem;
+	border-radius: 12px;
+	margin-bottom: 2rem;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.weather-dashboard-header h1 {
+	margin: 0 0 0.5rem 0;
+	font-size: 2rem;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: white;
+}
+
+.weather-dashboard-header .dashicons {
+	font-size: 2rem;
+	width: 2rem;
+	height: 2rem;
+}
+
+.dashboard-subtitle {
+	margin: 0;
+	opacity: 0.9;
+	font-size: 1.1rem;
+}
+
+.weather-dashboard-grid {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 2rem;
+	margin-bottom: 2rem;
+}
+
+.dashboard-card {
+	background: white;
+	border-radius: 12px;
+	padding: 1.5rem;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+	border: 1px solid #e1e5e9;
+	transition: box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard-card h3 {
+	margin: 0 0 1rem 0;
+	font-size: 1.2rem;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: #2c3e50;
+}
+
+.status-items {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.status-item {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	border-radius: 8px;
+	background: #f8f9fa;
+}
+
+.status-indicator {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.status-success .status-indicator {
+	background: #27ae60;
+}
+
+.status-error .status-indicator {
+	background: #e74c3c;
+}
+
+.status-info .status-indicator {
+	background: #3498db;
+}
+
+.status-text {
+	font-weight: 500;
+	color: #2c3e50;
+}
+
+.api-key-cta {
+	margin-top: 1.5rem;
+	padding: 1.5rem;
+	background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+	color: white;
+	border-radius: 12px;
+	text-align: center;
+}
+
+.api-key-cta h4 {
+	margin: 0 0 0.75rem 0;
+	font-size: 1.1rem;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.api-key-cta p {
+	margin: 0 0 1rem 0;
+	opacity: 0.95;
+	line-height: 1.5;
+}
+
+.button-cta {
+	background: rgba(255, 255, 255, 0.2) !important;
+	border: 2px solid rgba(255, 255, 255, 0.3) !important;
+	color: white !important;
+	border-radius: 8px !important;
+	padding: 0.75rem 1.5rem !important;
+	font-weight: 600 !important;
+	text-decoration: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 0.5rem !important;
+	transition: all 0.2s ease !important;
+	backdrop-filter: blur(10px);
+}
+
+.button-cta:hover {
+	background: rgba(255, 255, 255, 0.3) !important;
+	border-color: rgba(255, 255, 255, 0.5) !important;
+	transform: translateY(-1px) !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.button-cta .dashicons {
+	font-size: 16px !important;
+	width: 16px !important;
+	height: 16px !important;
+}
+
+.settings-card .form-table {
+	margin-top: 0;
+}
+
+.settings-card .form-table th {
+	padding-left: 0;
+	font-weight: 600;
+	color: #2c3e50;
+}
+
+.settings-card .form-table td {
+	padding-left: 0;
+}
+
+.input-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.input-group input,
+.input-group select {
+	border: 2px solid #e1e5e9;
+	border-radius: 8px;
+	padding: 0.75rem;
+	font-size: 1rem;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.api-key-input.masked {
+	font-family: monospace;
+	letter-spacing: 2px;
+	color: #666;
+}
+
+.api-key-input.masked:not(:focus) {
+	-webkit-text-security: disc;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+	border-color: #667eea;
+	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+	outline: none;
+}
+
+.input-group .description {
+	margin: 0;
+	color: #6c757d;
+	font-size: 0.9rem;
+}
+
+.input-group .description a {
+	color: #667eea;
+	text-decoration: none;
+}
+
+.input-group .description a:hover {
+	text-decoration: underline;
+}
+
+.form-actions {
+	display: flex;
+	gap: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid #e1e5e9;
+	margin-top: 1.5rem;
+}
+
+.button-primary {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+	border: none !important;
+	border-radius: 8px !important;
+	padding: 0.75rem 1.5rem !important;
+	font-weight: 600 !important;
+	font-size: 1rem !important;
+	text-transform: none !important;
+	box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3) !important;
+	transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.button-primary:hover {
+	transform: translateY(-1px) !important;
+	box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4) !important;
+}
+
+.button-danger {
+	background: #e74c3c !important;
+	border: 2px solid #e74c3c !important;
+	color: white !important;
+	border-radius: 8px !important;
+	padding: 0.75rem 1.5rem !important;
+	font-weight: 600 !important;
+	transition: all 0.2s ease !important;
+}
+
+.button-danger:hover {
+	background: #c0392b !important;
+	border-color: #c0392b !important;
+	transform: translateY(-1px) !important;
+}
+
+.button-disabled {
+	background-color: #ccc !important;
+	pointer-events: none !important;
+	opacity: 0.6 !important;
+}
+
+.weather-dashboard-footer {
+	margin-top: 2rem;
+}
+
+.info-card ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.info-card li {
+	padding: 0.75rem;
+	background: #f8f9fa;
+	border-radius: 8px;
+	border-left: 4px solid #667eea;
+}
+
+.info-card strong {
+	color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+	.weather-dashboard-grid {
+		grid-template-columns: 1fr;
+	}
+	
+	.weather-dashboard-header {
+		padding: 1.5rem;
+	}
+	
+	.weather-dashboard-header h1 {
+		font-size: 1.5rem;
+	}
+	
+	.form-actions {
+		flex-direction: column;
+	}
+}

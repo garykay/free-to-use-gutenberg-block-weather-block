@@ -29,6 +29,11 @@ $weather_api_url = "https://api.weatherapi.com/v1/forecast.json?key={$weather_ap
 $transient_key   = 'weather_data_' . sanitize_title( $location2 );
 
 /**
+ * Get cache duration from settings (default to 30 minutes).
+ */
+$cache_duration = get_option( 'weather_app_cache_duration', 30 );
+
+/**
  * Get weather data from transient.
  */
 $weather_info = get_transient( $transient_key );
@@ -38,7 +43,7 @@ if ( ! $weather_info ) {
 	$weather_data = wp_remote_retrieve_body( wp_remote_get( $weather_api_url ) );
 	if ( $weather_data ) {
 		$weather_info = json_decode( $weather_data );
-		set_transient( $transient_key, $weather_info, 30 * MINUTE_IN_SECONDS );
+		set_transient( $transient_key, $weather_info, $cache_duration * MINUTE_IN_SECONDS );
 	}
 }
 ?>

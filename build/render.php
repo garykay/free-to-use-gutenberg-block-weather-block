@@ -11,15 +11,15 @@ $unique_id = wp_unique_id( 'p-' );
 /**
  * Get block attributes.
  */
-$location        = ! empty( $attributes['location'] ) ? esc_html( $attributes['location'] ) : 'London';
-$unit            = $attributes['unit'] ?? 'C';
-$speed_unit      = $attributes['speedUnit'] ?? 'km/h';
-$extra_info      = $attributes['extraInfo'] ?? 'false';
-$title_color     = $attributes['titleColor'] ?? '#000';
-$title_size      = $attributes['titleSize'] ?? 20;
+$location          = ! empty( $attributes['location'] ) ? esc_html( $attributes['location'] ) : 'London';
+$unit              = $attributes['unit'] ?? 'C';
+$speed_unit        = $attributes['speedUnit'] ?? 'km/h';
+$extra_info        = $attributes['extraInfo'] ?? 'false';
+$title_color       = $attributes['titleColor'] ?? '#000';
+$title_size        = $attributes['titleSize'] ?? 20;
 $title_font_weight = $attributes['titleFontWeight'] ?? 'normal';
-$icon_size       = $attributes['iconSize'] ?? 50;
-$icon_position   = $attributes['iconPosition'] ?? 'right';
+$icon_size         = $attributes['iconSize'] ?? 50;
+$icon_position     = $attributes['iconPosition'] ?? 'right';
 /**
  * Fetch weather data from weather API.
  */
@@ -27,6 +27,11 @@ $location2       = str_replace( ' ', '-', $location );
 $weather_api_ey  = get_option( 'weather_app_api_key' );
 $weather_api_url = "https://api.weatherapi.com/v1/forecast.json?key={$weather_api_ey}&q={$location2}&aqi=no";
 $transient_key   = 'weather_data_' . sanitize_title( $location2 );
+
+/**
+ * Get cache duration from settings (default to 30 minutes).
+ */
+$cache_duration = get_option( 'weather_app_cache_duration', 30 );
 
 /**
  * Get weather data from transient.
@@ -38,7 +43,7 @@ if ( ! $weather_info ) {
 	$weather_data = wp_remote_retrieve_body( wp_remote_get( $weather_api_url ) );
 	if ( $weather_data ) {
 		$weather_info = json_decode( $weather_data );
-		set_transient( $transient_key, $weather_info, 30 * MINUTE_IN_SECONDS );
+		set_transient( $transient_key, $weather_info, $cache_duration * MINUTE_IN_SECONDS );
 	}
 }
 ?>
@@ -54,7 +59,7 @@ if ( ! $weather_info ) {
 		?>
 		<div class="weather-header icon-position-<?php echo esc_attr( $icon_position ); ?>">
 			<div class="weather-title-content">
-				<?php 
+				<?php
 				// Render InnerBlocks content with proper WordPress block processing
 				if ( ! empty( $content ) ) {
 					// Use do_blocks to ensure proper processing of Gutenberg content
