@@ -14,7 +14,7 @@ class WeatherAppSettings {
 	private $cache_option_name = 'weather_app_cache_duration';
 
 	public function __construct() {
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'settings_link' ) );
+		add_filter( 'plugin_action_links_roomworksmedia-weather-app/roomworksmedia-forcast.php', array( $this, 'settings_link' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_notices', array( $this, 'missing_api_key_notice' ) );
